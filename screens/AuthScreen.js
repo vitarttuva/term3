@@ -3,56 +3,86 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
+  TextInput,
   Button,
   Image,
 } from "react-native";
 import axios from "axios";
 
 export default function MainScreen({ navigation, route }) {
-  console.log(route);
+  console.log('route');
 
-  const [barcode, setBarcode] = useState("");
-  const [nomenred, setNomenred] = useState([]);
-  const [scanvisible, setScanvisible] = useState(true);
-
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+ 
   useEffect(() => {}, []);
 
+const vAuth = (log,pass) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        //Authorization: `Bearer ${user.jwt}`,
+      },
+    };
+
+    const apiUrl = "http://terminal17.ru/Ajax/Obmen/}";
+    const data = { mobileLogin: {login: log, password: pass,} };
+
+    axios
+      .post(apiUrl, data, config)
+      .then(function (response) {
+        //setNomen(response.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        //setNomen(error);
+      });
+  };
+
+
   return (
-    <View style={styles.vcontainer}>
+    <View style={styles.container}>
       {/* картинка   */}
-      <Image 
-      style={{width: "50%",height: 250,}}
-      source={require("../assets/terminalIcon.png")} />
-      <Text>{'\n'}</Text>
+      <Image
+        style={styles.vImage}
+        source={require("../assets/terminalIcon.png")}
+      />
+      <Text>{"\n"}</Text>
       {/* здесь делаем вход */}
-      <Button title="Вход" onPress={() => navigation.navigate("Find")} />
+      <TextInput
+        style={styles.text}
+        value = {login}
+        onChangeText={setLogin}
+        placeholder="Введите логин"
+      />
+      <TextInput
+        style={styles.text}
+        value = {password}
+        onChangeText={setPassword}
+        placeholder="Введите пароль"
+      />
+      {/* <Button title="Вход" onPress={() => navigation.navigate("Find")} /> */}
+      <Button title="Вход" onPress={() => vAuth(login,password)} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  vcontainer: {
+  container: {
     flex: 1,
-    //backgroundColor: "#808080",
     justifyContent: "center",
     alignItems: "center",
   },
-  vcontainer2: {
-    flex: 1,
-    backgroundColor: "#fff500",
-    //justifyContent: "center",
-    //alignItems: "center",
+  text: {
+    padding: 3,
+    margin: 3,
+    borderWidth: 1,
+    width: 250,
+    borderRadius: 5, 
+    fontSize: 16,
   },
-  vcenter: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  vleft: {
-    flex: 1,
-    //alignItems: "center",
-    //justifyContent: "center",
-    left: 10,
+  vImage: {
+    width: "50%",
+    height: "50%",
   },
 });
