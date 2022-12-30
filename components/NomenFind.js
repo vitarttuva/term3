@@ -9,48 +9,51 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import VitInput from "../components/vinput";
+import VitInput from "./vinput";
 
 import axios from "axios";
 
-export default function Nomenred({ Barcode, nomen }) {
-  //const [nomenitem, setNomenitem] = useState(null);
-
+export default function NomenFind({ Barcode, setNomenred, scaned}) {
+  
   const [vbar, setBar] = useState(null);
-  console.log(Barcode);
-
-  const FindNomen = (vbar1) => {
+  const [mess, setMess] = useState(null);
+  
+  const FindNomen = (vbarloc) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    console.log("===" + vbar1);
-
+  
     const apiUrl = "http://terminal17.ru/Ajax/Obmen/}";
-    const data = { mobileBarcode: vbar1 };
+    const data = { mobileFindBarcode: vbarloc };
 
     axios
       .post(apiUrl, data, config)
       .then(function (response) {
-        nomen(response.data);
         console.log(response.data);
+        const res = response.data;
+
+        if (res['error'] == true) {
+          //alert("не найдено товара");
+          setMess("Не найдено товара");
+        } else {
+          setNomenred(res);
+          setMess(res.name);
+        }
       })
       .catch(function (error) {
-        setNomenitem(error);
       });
   };
 
   useEffect(() => {
-    console.log("Запрос на сервер");
-    console.log(vbar);
-    console.log(Barcode);
 
-    if (vbar != Barcode) {
-      setBar(Barcode);
+    if (scaned) {
+      //if (scaned && vbar != Barcode) {
+        setBar(Barcode);
       FindNomen(Barcode);
     }
   }, [Barcode]);
 
-  return <View></View>;
+  return <View><Text>{mess}</Text></View>;
 }

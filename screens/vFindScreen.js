@@ -14,10 +14,11 @@ import VitInput from "../components/vinput";
 
 import axios from "axios";
 
-export default function FindScreen() {
-  const [vfind, setVfind] = useState("123");
+export default function FindScreen({ navigation }) {
   const [nomen, setNomen] = useState([]);
-  const [nomenitem, setNomenitem] = useState([]);
+ 
+  const [barcode, setBarcode] = useState('');
+  const [nomenred, setNomenred] = useState([]);
 
   const getSite2 = (vt) => {
     const config = {
@@ -46,18 +47,21 @@ export default function FindScreen() {
       <TouchableOpacity
         onPress={() => {
           // console.log("------------");
-          // console.log(item);
-          setNomenitem(item);
-          // navigation.navigate("Главная",{nomenred: item}); //Переносим на главную
+          //console.log(item);
+          //setNomenred(item);
+          //setModalVisible(true);
+          navigation.navigate("Main",{nomenFind: item}); //Переносим на главную
         }}
       >
         <Text>
           {"     "}
           {item.name}
           {"\n"}
-          !!!: {item.comment}
+          ------- {item.comment}
           {"\n"}
           кодБЭСТ: {item.code1c}
+          {"\n"}
+          штрихкод: {item.barcode}
           {"\n"}
           ЦЕНА: {item.price}
           {"\n"}
@@ -73,11 +77,11 @@ export default function FindScreen() {
         <Text>
           Сейчас выбрано:
           {"\n"}
-          {nomenitem.code1c}
+          {nomenred.code1c}
           {"\n"}
-          {nomenitem.comment}
+          {nomenred.comment}
           {"\n"}
-          {nomenitem.price}
+          {nomenred.price}
         </Text>
       </View>
       <View style={styles.vcontainer2}>
@@ -89,7 +93,7 @@ export default function FindScreen() {
               renderItem={({ item }) => vRenderMap({ item })}
             />
           ) : (
-            <Text style={{ fontSize: 32 }}>Ничего не найдено</Text>
+            <Text style={{ fontSize: 25 }}>Ничего не найдено</Text>
           )}
         </View>
       </View>

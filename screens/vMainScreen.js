@@ -1,37 +1,88 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Button,
+  Alert,
+} from "react-native";
 import Barcode from "../components/barcode";
-import Nomenred from "../components/nomenred";
+import NomenFind from "../components/NomenFind";
+import SetNomenBarcode from "../components/SetNomenBarcode";
 
-export default function MainScreen() {
+export default function MainScreen({ navigation, route }) {
   //console.log(route);
+  //const { itemId, otherParam } = route.params;
+  const [barcode, setBarcode] = useState("");
   const [nomenred, setNomenred] = useState([]);
-  const [vcode, setVcode] = useState(null);
+  //const {nomenFind} = route.params;
+  
+  useEffect(() => {
+    // console.log("открытие главной 2");
+    // console.log(route.params);
+    if (route.params != undefined) {
+      //const {nomenFind} = route.params;
+      // console.log(JSON.stringify(nomenFind));
+      // setNomenred(nomenFind);
+      // if (nomenFind != []) {
+      //   const nom = JSON.stringify(nomenFind);
+      //   console.log(nom);
+      //   setNomenred(nomenFind);
+      //   console.log(nomenred);
+
+      // }
+    }
+  }, []);
+  // nomenred,
+  // setNomenred,
+  // barcode,
+  // setBarcode,
+
+  const [scaned, setScaned] = useState(false);
   const [scanvisible, setScanvisible] = useState(true);
 
   const visScan = () => {
     const vscv = !scanvisible;
     setScanvisible(vscv);
+    setBarcode("");
   };
+
+  useEffect(() => {
+    setScaned(false);
+  }, []);
 
   return (
     <View style={styles.vcontainer}>
       {/* <StatusBar /> */}
-
+      <Button title="Поиск" onPress={() => navigation.navigate("Find")} />
       <View style={styles.vcenter}>
-        <Barcode setVcode={setVcode} scanvisible={scanvisible} />
+        <Barcode
+          setVcode={setBarcode}
+          scanvisible={scanvisible}
+          setScan={setScaned}
+        />
         <Button title="Обновить" onPress={visScan} />
         <Text>
-          штрихкод: {"\n"} {vcode}
+          Штрихкод: {"\n"} {barcode}
         </Text>
         <Text>
-          <Nomenred Barcode={vcode} nomen={setNomenred} />
+          <NomenFind
+            Barcode={barcode}
+            setNomenred={setNomenred}
+            scaned={scaned}
+          />
         </Text>
       </View>
       <View style={styles.vcontainer2}>
         <View style={styles.vleft}>
           <Text>Поиск по штрихкоду</Text>
+          <SetNomenBarcode
+            barcode={barcode}
+            nomenred={nomenred}
+            setNomenred={setNomenred}
+          />
         </View>
         <View style={styles.vleft}>
           <Text>
@@ -39,6 +90,8 @@ export default function MainScreen() {
             {nomenred.name}
             {"\n"}
             !!!: {nomenred.comment}
+            {"\n"}
+            штрихкод: {nomenred.barcode}
             {"\n"}
             кодБЭСТ: {nomenred.code1c}
             {"\n"}

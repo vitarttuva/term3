@@ -10,36 +10,67 @@ import {
 } from "react-native";
 import MainScreen from "./screens/vMainScreen";
 import FindScreen from "./screens/vFindScreen";
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
+import AuthScreen from "./screens/AuthScreen";
+//import { createStackNavigator } from "@react-navigation/stack";
 
-// const Stack = createStackNavigator();
-export default function App() {
-  
-  const [modalVisible, setModalVisible] = useState(true);
-  const [nomenred, setNomenred] = useState([]);
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+//const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeScreen() {
   return (
-    <View>
-      <StatusBar/>
-      <Modal visible={modalVisible}>
-        <View style={styles.container}>
-          
-          <Button title="Поиск" onPress={() => setModalVisible(!modalVisible)} />
-          <MainScreen />
-          
-        </View>
-      </Modal>
-      <Modal visible={!modalVisible}>
-        <View style={styles.container}>
-          
-          <Button title="Главная" onPress={() => setModalVisible(!modalVisible)} />
-          <FindScreen />
-          
-        </View>
-      </Modal>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Home Screen</Text>
     </View>
   );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen
+          name="Auth"
+          component={AuthScreen}
+          options={{ title: "Вход" }}
+        />
+         <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{ title: "Главная" }}
+        />
+        <Stack.Screen
+          name="Find"
+          component={FindScreen}
+          options={{ title: "Поиск" }}
+        />
+
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+
+  // const [barcode, setBarcode] = useState('');
+  // const [nomenred, setNomenred] = useState([]);
+
+  // return (
+  //   <NavigationContainer>
+  //     <Stack.Navigator>
+  //       <Stack.Screen
+  //         name="Main"
+  //         component={MainScreen}
+  //         options={{ title: "Главная" }}
+  //       />
+  //       <Stack.Screen
+  //         name="Find"
+  //         component={FindScreen}
+  //         options={{ title: "Поиск" }}
+  //       />
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 }
 
 const styles = StyleSheet.create({
