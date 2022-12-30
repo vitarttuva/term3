@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, Image } from "react-native";
 import axios from "axios";
 
 export default function MainScreen({ navigation, route }) {
-  console.log("route");
+  //console.log("route");
 
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -80,8 +80,9 @@ const styles = StyleSheet.create({
   },
   vImage: {
     flex: 1,
-    width: "50%",
+    width: "90%",
     height: "50%",
+    container: "contain",
   },
   vButton: {
     flex: 1,
