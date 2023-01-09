@@ -16,8 +16,8 @@ import axios from "axios";
 
 export default function FindScreen({ navigation }) {
   const [nomen, setNomen] = useState([]);
- 
-  const [barcode, setBarcode] = useState('');
+
+  const [barcode, setBarcode] = useState("");
   const [nomenred, setNomenred] = useState([]);
 
   const getSite2 = (vt) => {
@@ -45,27 +45,25 @@ export default function FindScreen({ navigation }) {
   const vRenderMap = ({ item }) => (
     <View>
       <TouchableOpacity
+        style={styles.vText}
         onPress={() => {
           // console.log("------------");
           //console.log(item);
           //setNomenred(item);
           //setModalVisible(true);
-          navigation.navigate("Main",{nomenFind: item}); //Переносим на главную
+          navigation.navigate("Main", { nomenFind: item }); //Переносим на главную
         }}
       >
         <Text>
-          {"     "}
-          {item.name}
+          <Text style={styles.vTextB}>{item.name}</Text>
           {"\n"}
-          ------- {item.comment}
+          {item.comment}
           {"\n"}
           кодБЭСТ: {item.code1c}
           {"\n"}
           штрихкод: {item.barcode}
           {"\n"}
-          ЦЕНА: {item.price}
-          {"\n"}
-          --------------------------------------------------
+          ЦЕНА: <Text style={styles.vTextB}>{item.price}</Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -73,17 +71,6 @@ export default function FindScreen({ navigation }) {
 
   return (
     <View style={styles.vcontainer}>
-      <View>
-        <Text>
-          Сейчас выбрано:
-          {"\n"}
-          {nomenred.code1c}
-          {"\n"}
-          {nomenred.comment}
-          {"\n"}
-          {nomenred.price}
-        </Text>
-      </View>
       <View style={styles.vcontainer2}>
         <View style={styles.vleft}>
           {nomen.length ? (
@@ -98,6 +85,12 @@ export default function FindScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.vfind}>
+        <Button
+          title="на главную"
+          onPress={() => {
+            navigation.navigate("Main");
+          }}
+        />
         <VitInput
           FuncText={getSite2}
           TitleButton="Поиск"
@@ -113,16 +106,16 @@ const styles = StyleSheet.create({
     flex: 1,
     //backgroundColor: "#808080",
     justifyContent: "center",
-    alignItems: "center",
+    //alignItems: "center",
   },
   vcontainer2: {
-    flex: 0.9,
-    backgroundColor: "#ace5ee",
+    flex: 1,
+    //backgroundColor: "#fff",
     //justifyContent: "center",
     //alignItems: "center",
   },
   vfind: {
-    flex: 0.1,
+    //flex: 1,
     // width: 100,
   },
   vleft: {
@@ -130,5 +123,16 @@ const styles = StyleSheet.create({
     //alignItems: "center",
     //justifyContent: "center",
     //left: 10,
+  },
+  vText: {
+    borderRadius: 5,
+    borderWidth: 1,
+    margin: 2,
+    //alignItems: "center",
+    //justifyContent: "center",
+    //left: 10,
+  },
+  vTextB: {
+    fontWeight: "700",
   },
 });
