@@ -8,7 +8,7 @@ export default function GetCount(boxid, nomenid, setCount) {
   }
   console.log(nomenid); //вывод
   const data = {
-    countstocktaking: {
+      countstocktaking: {
       boxid: boxid,
       nomenid: nomenid,
     },

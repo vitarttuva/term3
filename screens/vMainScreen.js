@@ -88,8 +88,6 @@ export default function MainScreen({ navigation, route }) {
   
   };
 
-  
-
   const visScan = () => {
     const vscv = !scanvisible;
     setScanvisible(vscv);
